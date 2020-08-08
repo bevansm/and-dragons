@@ -1,0 +1,6 @@
+version: '3'
+services:
+  anddragons:
+    build: .
+    env_file: .env
+    container_name: anddragons

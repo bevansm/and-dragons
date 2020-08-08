@@ -1,0 +1,35 @@
+{
+  "name": "and-dragons",
+  "version": "1.0.0",
+  "description": "App to integrate different learning platforms to create a cohesive, \"gamified\" experience.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "env-cmd node dist/index.js",
+    "start:prod": "node dist/index.js",
+    "dev": "env-cmd ts-node --files src/index.ts",
+    "dev:watch": "nodemon",
+    "validate": "tslint --project tsconfig.json",
+    "prod": "node dist/index.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cron": "^1.8.2",
+    "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0",
+    "lodash": "^4.17.19",
+    "node-canvas-api": "^1.5.7",
+    "piazza-api": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/cron": "^1.7.2",
+    "@types/lodash": "^4.14.159",
+    "env-cmd": "^10.1.0",
+    "nodemon": "^2.0.4",
+    "ts-node": "^8.10.2",
+    "ts-node-dev": "^1.0.0-pre.56",
+    "tslint": "^6.1.3",
+    "tslint-config-prettier": "^1.18.0"
+  }
+}
