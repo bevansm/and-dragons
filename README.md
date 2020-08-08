@@ -10,8 +10,8 @@ Coding's cool. What's even cooler? Wearing together the platforms used in a codi
 
 ### Requirements
 
-- Docker
 - Node.JS 12.x.x+
+- Docker (optional)
 
 ### Setup
 
@@ -45,7 +45,7 @@ To run a compiled, "production" version: `npm build && npm start`
 
 | Platform                                                           | Notes                                                                                                                                                                                                                                                                                                 | Token                                                                                               |
 | ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| [PrairieLearn](https://prairielearn.readthedocs.io/en/latest/api/) | Read only access                                                                                                                                                                                                                                                                                      | Ask Cinda                                                                                           |
+| [PrairieLearn](https://prairielearn.readthedocs.io/en/latest/api/) | Read only access                                                                                                                                                                                                                                                                                      | [PL Settings Page](https://ca.prairielearn.org/pl/settings)                                         |
 | [Canvas](https://canvas.instructure.com/doc/api/)                  | Package likely missing types; add more in `./src/types/node-canvas-api.d.ts`                                                                                                                                                                                                                          | [Profile Page > Approved Integrations > "New Access Token"](https://canvas.ubc.ca/profile/settings) |
 | [Discord](https://discordjs.guide/)                                |                                                                                                                                                                                                                                                                                                       | [Set up a Discord Bot](https://discordjs.guide/preparations/setting-up-a-bot-application.html)      |
 | Piazza                                                             | We'll have to build our own API wrapper/scraper; see [this cool article](https://hfaran.me/posts/reverse-engineering-piazzas-api/) about reverse engineering Piazza. We have cookie logic set up & functional logins; we just need to figure out what data we need, i.e. what endpoints to build out. | Use a TA/Teacher login & username                                                                   |
