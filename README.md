@@ -20,14 +20,14 @@ Coding's cool. What's even cooler? Wearing together the platforms used in a codi
 2. Run `npm install` in the root folder.
 3. Copy `.mock.env` and rename as `.env`
 4. Fill out `.env`
-5. Run the app: `npm start dev`
+5. Run the app: `npm run dev`
 6. Access the API at `http://localhost:8080`
 
 #### Localhost
 
-To run in dev mode: `npm start dev`
+To run in dev mode: `npm run dev`
 
-To run with [nodemon](https://nodemon.io/): `npm start dev:watch`
+To run with [nodemon](https://nodemon.io/): `npm run dev:watch`
 
 To run a compiled, "production" version: `npm build && npm start`
 
