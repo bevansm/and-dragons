@@ -12,14 +12,16 @@ Coding's cool. What's even cooler? Wearing together the platforms used in a codi
 
 - Node.JS 12.x.x+
 - Docker (optional)
+- VSCode (reccommended IDE, but pick your poision)
 
 ### Setup
 
-1. Run `npm install` in the root folder.
-2. Copy `.mock.env` and rename as `.env`
-3. Fill out `.env`
-4. Run the app: `npm start dev`
-5. Access the API at `http://localhost:8080`
+1. If using VSCode, install the reccomended extensions. You should be prompted to do so when opening the project for the first time.
+2. Run `npm install` in the root folder.
+3. Copy `.mock.env` and rename as `.env`
+4. Fill out `.env`
+5. Run the app: `npm start dev`
+6. Access the API at `http://localhost:8080`
 
 #### Localhost
 
