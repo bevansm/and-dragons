@@ -3,7 +3,7 @@ import {
   PrairieLearnAssessment,
   PrairieLearnGradebook,
   PrairieLearnSubmission,
-} from './prairieLearnTypes';
+} from './PrairieLearnTypes';
 
 export class PrairieLearnClient {
   private static client: PrairieLearnClient;
@@ -71,7 +71,7 @@ export class PrairieLearnClient {
     assessmentInstanceId: number
   ): Promise<PrairieLearnSubmission[]> {
     return this.getForInstance<PrairieLearnSubmission[]>(
-      `${assessmentInstanceId}/submissions`
+      `assessment_instances/${assessmentInstanceId}/submissions`
     );
   }
 

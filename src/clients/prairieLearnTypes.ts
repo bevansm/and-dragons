@@ -18,7 +18,7 @@ export interface PrairieLearnAssessmentSummary {
   points?: number;
   max_points?: number;
   score_perc?: number;
-  start_date?: Date;
+  start_date?: string;
   assessment_id: number;
   assessment_name: string;
   assessment_label: string;
