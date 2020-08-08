@@ -1,22 +1,19 @@
-import { Client as DiscordClient } from 'discord.js';
+import express, { Request, Response } from 'express';
+import PiazzaClient from './clients/PiazzaClient';
+import DiscordClient from './clients/DiscordClient';
 import CanvasClient from 'node-canvas-api';
-import Piazza from 'piazza-api';
+
+const app = express();
 
 const login = async () => {
-  const client = new DiscordClient({
-    restRequestTimeout: 600000,
-    retryLimit: 10,
-  });
-
-  await client.login(process.env.DISCORD_BOT_TOKEN);
-  const piazzaClient = await Piazza.login(
-    process.env.PIAZZA_USER,
-    process.env.PIAZZA_PASS
-  );
-
-  client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}!`);
-  });
+  const piazzaClient = await PiazzaClient.getClient();
+  const discordClient = await DiscordClient.getClient();
+  console.log('Logged in!');
 };
 
-login();
+app.get('/health', (_req: Request, res: Response) => res.send('OK'));
+
+app.listen(8080);
+console.log('App listening at http://localhost:8080');
+
+login().catch(e => console.log(e));

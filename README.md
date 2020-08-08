@@ -18,6 +18,8 @@ Coding's cool. What's even cooler? Wearing together the platforms used in a codi
 1. Run `npm install` in the root folder.
 2. Copy `.mock.env` and rename as `.env`
 3. Fill out `.env`
+4. Run the app: `npm start dev`
+5. Access the API at `http://localhost:8080`
 
 #### Localhost
 

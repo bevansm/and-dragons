@@ -4,3 +4,5 @@ services:
     build: .
     env_file: .env
     container_name: anddragons
+    ports:
+      - 8080:8080
