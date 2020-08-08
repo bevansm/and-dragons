@@ -11,7 +11,11 @@ Coding's cool. What's even cooler? Wearing together the platforms used in a codi
 ### Requirements
 
 - Docker
-- Node.JS 14.3.0
+- Node.JS 12.x.x+
+
+### Setup
+
+To set up the project, run `npm install` in the root folder.
 
 ### Use
 
@@ -21,13 +25,12 @@ Coding's cool. What's even cooler? Wearing together the platforms used in a codi
 
 #### Localhost
 
-To run with `nodemon`, i.e. to run with live reloads: `npm start:dev`
+To run with `nodemon`, i.e. to run with live reloads: `npm dev`
 
 To run a "production" version: `npm build && npm start`
 
 #### With Docker
 
-// TODO
 `docker-compose up` (will have to run `docker-compose build` to rebuild, and `docker-compose down` to tear down)
 
 ### APIS
