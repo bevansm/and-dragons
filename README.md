@@ -35,6 +35,10 @@ To run with [nodemon](https://nodemon.io/): `npm run dev:watch`
 
 To run a compiled, "production" version: `npm build && npm start`
 
+##### Database
+
+To use the database locally, run `docker-compose up db`.
+
 #### With Docker
 
 `docker-compose up` (will have to run `docker-compose build` to rebuild, and `docker-compose down` to tear down)
