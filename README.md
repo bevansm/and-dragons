@@ -2,6 +2,10 @@
 
 Gamifying learning, one integration at a time.
 
+## Table of Contents
+
+- [Database & API](./docs/ARCHITECTURE.md)
+
 ## Introduction
 
 Coding's cool. What's even cooler? Wearing together the platforms used in a coding class and creating an extensible, integrated, gamified workflow. Awarding students points for engaging with different platforms and reaching learning goals can help create a community around virtual education.
@@ -34,12 +38,6 @@ To run a compiled, "production" version: `npm build && npm start`
 #### With Docker
 
 `docker-compose up` (will have to run `docker-compose build` to rebuild, and `docker-compose down` to tear down)
-
-## API
-
-| Endpoint  | Description        | Response            |
-| --------- | ------------------ | ------------------- |
-| `/health` | Server liveliness. | `OK` (upon success) |
 
 ## Integrations
 
