@@ -38,7 +38,9 @@ To run a compiled, "production" version: `npm build && npm start`
 
 ##### Database
 
-To use the database locally, without running the dockerized app, run `docker-compose up db`. It's set up with some mock student data. You can take a closer look at what exactly this data consists of in the res folder.
+To use the database locally, without running the dockerized app, run `docker-compose up dragons_db`.
+
+It's set up with some mock student data. You can take a closer look at what exactly this data consists of in the res folder.
 
 #### With Docker
 

@@ -20,7 +20,7 @@ export enum Integration {
 
 export interface Score {
   student_id: number;
-  integration: string;
+  integration_id: string;
   points: number;
 }
 

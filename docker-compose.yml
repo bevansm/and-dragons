@@ -6,5 +6,16 @@ services:
     container_name: dragons_app
     ports:
       - 8080:8080
-  db:
+    depends_on:
+      - dragons_db
+  dragons_db:
+    image: 'docker.io/bitnami/mariadb:10.3-debian-10'
     container_name: dragons_db
+    environment:
+      - MARIADB_USER=dragons
+      - MARIADB_PASSWORD=dragons
+      - MARIADB_DATABASE=dragons_db
+    volumes:
+      - 'mariadb_data:/bitnami'
+    ports:
+      - 3306:3306

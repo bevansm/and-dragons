@@ -9,6 +9,7 @@ declare global {
       CANVAS_API_TOKEN: string;
       CANVAS_API_DOMAIN: string;
       DB_HOST: string;
+      DB_DATABASE: string;
       DB_USERNAME: string;
       DB_PASSWORD: string;
     }

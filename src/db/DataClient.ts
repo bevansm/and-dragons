@@ -12,7 +12,8 @@ class DataClient implements IDataClient {
   private connection: Connection;
 
   private async init(
-    host: string = '',
+    host: string = process.env.DB_HOST,
+    database: string = process.env.DB_DATABASE,
     username: string = process.env.DB_USERNAME,
     password: string = process.env.DB_PASSWORD
   ) {
@@ -20,6 +21,7 @@ class DataClient implements IDataClient {
       host,
       password,
       user: username,
+      database,
     });
   }
   /**
@@ -33,13 +35,14 @@ class DataClient implements IDataClient {
    * @param password
    */
   public static async getClient(
-    host: string = '',
-    username: string = process.env.DB_USERNAME,
-    password: string = process.env.DB_PASSWORD
+    host?: string,
+    database?: string,
+    username?: string,
+    password?: string
   ): Promise<IDataClient> {
     if (!DataClient.client) {
       const client = new DataClient();
-      await client.init(host, username, password);
+      await client.init(host, database, username, password);
       DataClient.client = client;
     }
     return DataClient.client;
