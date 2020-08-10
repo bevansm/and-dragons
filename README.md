@@ -52,7 +52,7 @@ docker-compose exec -T dragons_db sh -c 'exec mysql -u $MYSQL_USER -p"$MYSQL_PAS
 
 If you'd like a web UI to view the database (and see exactly what's going on!):
 
-1. `docker-compose up dragons_damin`
+1. `docker-compose up dragons_admin`
 2. Navigate to <http://localhost:8090>
 3. Log in using:
    - Username: `dragons`

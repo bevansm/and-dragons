@@ -48,11 +48,13 @@ class DataClient implements IDataClient {
     return DataClient.client;
   }
 
-  public async addCourse(course: Course): Promise<Course> {
+  public async addCourse(course: Omit<Course, 'course_id'>): Promise<Course> {
     throw new Error('Not implemented');
   }
 
-  public async addStudent(student: Student): Promise<Student> {
+  public async addStudent(
+    student: Omit<Student, 'student_id'>
+  ): Promise<Student> {
     throw new Error('Not implemented');
   }
 

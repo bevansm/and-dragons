@@ -30,14 +30,14 @@ export interface CachedScore extends Score {
 
 export interface IDataClient {
   /**
-   * Adds a course.
+   * Adds a course. Provide all fields for the course object except for id.
    */
-  addCourse: (course: Course) => Promise<Course>;
+  addCourse: (course: Omit<Course, 'course_id'>) => Promise<Course>;
 
   /**
-   * Adds a student.
+   * Adds a student. Provide all fields from the student object except for id.
    */
-  addStudent: (student: Student) => Promise<Student>;
+  addStudent: (student: Omit<Student, 'student_id'>) => Promise<Student>;
 
   /**
    * Deletes a student.
