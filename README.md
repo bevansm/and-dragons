@@ -36,15 +36,19 @@ To run with [nodemon](https://nodemon.io/): `npm run dev:watch`
 
 To run a compiled, "production" version: `npm build && npm start`
 
-##### Database
+#### Docker
 
-To use the database locally, without running the dockerized app, run `docker-compose up dragons_db`.
+`docker-compose up` (will have to run `docker-compose build` to rebuild, and `docker-compose down` to tear down). Then, follow the instructions to initialize the database.
 
-It's set up with some mock student data. You can take a closer look at what exactly this data consists of in the res folder.
+#### Database
 
-#### With Docker
+To use the local database, with or without running the app in the docker container:
 
-`docker-compose up` (will have to run `docker-compose build` to rebuild, and `docker-compose down` to tear down)
+```bash
+docker-compose up dragons_db
+docker-compose exec -T dragons_db sh -c 'exec mysql -u $MYSQL_USER -p"$MYSQL_PASSWORD" -D $MYSQL_DATABASE' < ./sql/tables.sql
+docker-compose exec -T dragons_db sh -c 'exec mysql -u $MYSQL_USER -p"$MYSQL_PASSWORD" -D $MYSQL_DATABASE' < ./sql/mock.sql
+```
 
 ## Integrations
 

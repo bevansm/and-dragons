@@ -1,6 +1,6 @@
 version: '3'
 services:
-  app:
+  dragons_app:
     build: .
     env_file: .env
     container_name: dragons_app
@@ -9,13 +9,12 @@ services:
     depends_on:
       - dragons_db
   dragons_db:
-    image: 'docker.io/bitnami/mariadb:10.3-debian-10'
+    image: mysql/mysql-server
     container_name: dragons_db
     environment:
-      - MARIADB_USER=dragons
-      - MARIADB_PASSWORD=dragons
-      - MARIADB_DATABASE=dragons_db
-    volumes:
-      - 'mariadb_data:/bitnami'
+      - MYSQL_USER=dragons
+      - MYSQL_PASSWORD=dragons
+      - MYSQL_DATABASE=dragons_db
+      - MYSQL_ROOT_PASSWORD=secret
     ports:
       - 3306:3306
