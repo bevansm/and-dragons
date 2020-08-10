@@ -1,4 +1,4 @@
-import mysql, { Connection, format, escape } from 'mysql';
+import mysql, { Connection, escape } from 'mysql';
 import IDataClient, {
   Student,
   Integration,
@@ -100,7 +100,7 @@ class DataClient implements IDataClient {
   }
 
   public async addStudent(
-    student: Omit<Student, 'student_id'>
+    student: Omit<Student, 'student_id' | 'last_seen'>
   ): Promise<Student> {
     const queryStr = `INSERT INTO ${studentsTable} ${this.toFieldsString(
       student
@@ -171,8 +171,11 @@ class DataClient implements IDataClient {
     integration: Integration,
     points: number
   ): Promise<Score> {
-    // TODO:
-    throw new Error('Not implemented');
+    const queryStr = `UPDATE ${scoresTable} SET points = points + ${points} WHERE integration_id = ${escape(
+      integration
+    )} AND student_id = ${studentId}`;
+    const res = await this.query<Score>(queryStr);
+    return res[0];
   }
 }
 

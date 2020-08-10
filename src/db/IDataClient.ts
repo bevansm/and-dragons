@@ -1,7 +1,7 @@
 export interface Student {
   student_id: number;
   course_id: number;
-  last_seen: Date;
+  last_seen: string;
   pl_id: string;
   discord_id: string;
   piazza_id: string;
@@ -25,7 +25,7 @@ export interface Score {
 }
 
 export interface CachedScore extends Score {
-  timestamp: Date;
+  timestamp: string;
 }
 
 export interface IDataClient {
