@@ -1,8 +1,10 @@
 version: '3'
 services:
-  anddragons:
+  app:
     build: .
     env_file: .env
-    container_name: anddragons
+    container_name: dragons_app
     ports:
       - 8080:8080
+  db:
+    container_name: dragons_db

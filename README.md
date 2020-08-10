@@ -26,6 +26,7 @@ Coding's cool. What's even cooler? Wearing together the platforms used in a codi
 4. Fill out `.env`
 5. Run the app: `npm run dev`
 6. Access the API at `http://localhost:8080`
+   - You can find a list of endpoints [here](./docs/ARCHITECTURE.md)
 
 #### Localhost
 
@@ -37,7 +38,7 @@ To run a compiled, "production" version: `npm build && npm start`
 
 ##### Database
 
-To use the database locally, run `docker-compose up db`.
+To use the database locally, without running the dockerized app, run `docker-compose up db`. It's set up with some mock student data. You can take a closer look at what exactly this data consists of in the res folder.
 
 #### With Docker
 
