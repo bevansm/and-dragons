@@ -18,6 +18,19 @@ Coding's cool. What's even cooler? Wearing together the platforms used in a codi
 - Docker (optional)
 - VSCode (reccommended IDE, but pick your poision)
 
+### Filestructure
+
+```txt
+├───dist        (compiled typescript files. gitignored)
+├───docs        (doccumentation files)
+├───sql         (sql queries to set up tables, events, and mock data)
+├───src         (the meat of the project)
+│   ├───clients (api wrappers for various integrations & external apis)
+│   ├───db      (a database wrapper)
+│   ├───types   (typescript type files for external (aka not our) modules)
+│   └───...
+```
+
 ### Setup
 
 1. If using VSCode, install the reccomended extensions. You should be prompted to do so when opening the project for the first time.
@@ -57,9 +70,9 @@ If you'd like a web UI to view the database (and see exactly what's going on!):
 2. Navigate to <http://localhost:8090>
 3. Log in using:
    - Username: `dragons`
-   - Passowrd: `dragons`
+   - Password: `dragons`
 4. Navigate to the `dragons_db` database on the left hand side of the menu.
-5. From here, you'll be able to look through an interact with the database. Happy development!
+5. From here, you'll be able tod look through an interact with the database. Happy development!
 
 ## Integrations
 
