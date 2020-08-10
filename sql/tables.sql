@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS students (
 	pl_id VARCHAR(255),
 	discord_id VARCHAR(255),
 	piazza_id VARCHAR(255),
-	FOREIGN KEY (course_id) REFERENCES courses(course_id)
+	FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS integrations (
 	integration_id VARCHAR(255) NOT NULL PRIMARY KEY
@@ -20,14 +20,14 @@ CREATE TABLE IF NOT EXISTS points_cache (
 	timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	points INT DEFAULT 0,
 	CONSTRAINT pk_point_cache PRIMARY KEY (student_id, integration_id, timestamp),
-	FOREIGN KEY (student_id) REFERENCES students(student_id),
-	FOREIGN KEY (integration_id) REFERENCES integrations(integration_id)
+	FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE,
+	FOREIGN KEY (integration_id) REFERENCES integrations(integration_id) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS points (
 	student_id INT NOT NULL,
 	integration_id VARCHAR(255) NOT NULL,
 	points INT DEFAULT 0,
 	CONSTRAINT pk_point PRIMARY KEY (student_id, integration_id),
-	FOREIGN KEY (student_id) REFERENCES students(student_id),
-	FOREIGN KEY (integration_id) REFERENCES integrations(integration_id)
+	FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE,
+	FOREIGN KEY (integration_id) REFERENCES integrations(integration_id) ON DELETE CASCADE
 );
