@@ -101,7 +101,7 @@ If you'd like a web UI to view the database (and see exactly what's going on!):
 
 ### Whoa, what's this whole TypeScript thing?
 
-TypeScript is just typed JavaScript.
+TypeScript is typed JavaScript. You can read about it more [here](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html). It's kinda fun because you have the freedom to create a lot of random types for objects, and interact with them in weird ways. If you'd never heard of generics before, well, TypeScript will get you on board quickly.
 
 ### This thing called tslint is yelling at me...
 
