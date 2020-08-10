@@ -50,6 +50,16 @@ docker-compose exec -T dragons_db sh -c 'exec mysql -u $MYSQL_USER -p"$MYSQL_PAS
 docker-compose exec -T dragons_db sh -c 'exec mysql -u $MYSQL_USER -p"$MYSQL_PASSWORD" -D $MYSQL_DATABASE' < ./sql/mock.sql
 ```
 
+If you'd like a web UI to view the database (and see exactly what's going on!):
+
+1. `docker-compose up dragons_damin`
+2. Navigate to <http://localhost:8090>
+3. Log in using:
+   - Username: `dragons`
+   - Passowrd: `dragons`
+4. Navigate to the `dragons_db` database on the left hand side of the menu.
+5. From here, you'll be able to look through an interact with the database. Happy development!
+
 ## Integrations
 
 ### Overview

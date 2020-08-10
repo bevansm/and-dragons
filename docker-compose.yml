@@ -18,3 +18,14 @@ services:
       - MYSQL_ROOT_PASSWORD=secret
     ports:
       - 3306:3306
+  dragons_admin:
+    image: phpmyadmin/phpmyadmin
+    container_name: dragons_admin
+    links:
+      - dragons_db
+    environment:
+      - PMA_HOST=dragons_db
+    depends_on:
+      - dragons_db
+    ports:
+      - 8090:80
