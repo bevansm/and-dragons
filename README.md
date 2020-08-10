@@ -14,11 +14,11 @@ Coding's cool. What's even cooler? Wearing together the platforms used in a codi
 
 ### Requirements
 
-- Node.JS 12.x.x+
-- Docker (optional)
-- VSCode (reccommended IDE, but pick your poision)
+- [Node.JS 12.x.x+](https://nodejs.org/en/download/)
+- [Docker](https://docs.docker.com/engine/install/)
+- [VSCode](https://code.visualstudio.com/download) (reccommended IDE, but pick your poision)
 
-### Filestructure
+### File Structure
 
 ```txt
 ├───dist        (compiled typescript files. gitignored)
@@ -39,7 +39,7 @@ Coding's cool. What's even cooler? Wearing together the platforms used in a codi
 4. Fill out `.env`
 5. Run the app: `npm run dev`
 6. Access the API at `http://localhost:8080`
-   - You can find a list of endpoints [here](./docs/ARCHITECTURE.md)
+   - You can find a list of endpoints [here](./docs/ARCHITECTURE.md#api)
 
 #### Localhost
 
@@ -96,3 +96,29 @@ If you'd like a web UI to view the database (and see exactly what's going on!):
 3. Go to `OAuth2 > OAuth2 URL Generator` and tick the "bot" box under "scopes"
 4. Copy the resulting URL
 5. Copy and paste in your browser, and choose the server you'd like the bot to join!
+
+## Notes
+
+### Whoa, what's this whole TypeScript thing?
+
+TypeScript is just typed JavaScript.
+
+### This thing called tslint is yelling at me...
+
+TSLint is a "linter", or a static code analysis tool, that enforces different coding conventions. It helps catch errors _and_ bad programming habits!
+
+We configure TSLint using a file called `tslint.json`, which can be found in the root of the project.
+
+TSLint is good to have because it helps squash errors and _make code easier to understand_. However, sometimes we know what we're doing, and we don't need linters to hold our hands.
+
+If there's a certain line that tslint is screaming about, you can add a `// @ts-ignore` comment above that line:
+
+```ts
+// This is horrible, but it's valid TypeScript.
+// @ts-ignore
+var my_dad = !!{} + 1;
+```
+
+Alternatively, you can edit `tslint.json` to ignore a certain rule. This somewhat defeats the purpose of the linter, but if it's on your last nerve and ruining the language for you, feel free to update the file.
+
+Coding is supposed to be fun; if linters are crushing your soul, tell them to lighten up!
