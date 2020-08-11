@@ -4,6 +4,3 @@
 node_modules/
 dist/
 **/cookie.jar
-
-## sql tmp data
-db/

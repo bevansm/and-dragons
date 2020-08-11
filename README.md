@@ -21,14 +21,15 @@ Coding's cool. What's even cooler? Wearing together the platforms used in a codi
 ### File Structure
 
 ```txt
-├───dist        (compiled typescript files. gitignored)
-├───docs        (doccumentation files)
-├───res         (test scripts)
-├───sql         (sql queries to set up tables, events, and mock data)
-├───src         (the meat of the project)
-│   ├───clients (api wrappers for various integrations & external apis)
-│   ├───db      (a database wrapper)
-│   ├───types   (typescript type files for external (aka not our) modules)
+├───dist             (compiled typescript files. gitignored)
+├───docs             (doccumentation files)
+├───res              (test scripts)
+├───sql              (sql queries to set up tables, events, and mock data)
+├───src              (the meat of the project)
+│   ├───clients      (api wrappers for various integrations & external apis)
+│   ├───db           (a database wrapper)
+│   ├───integrations (classes that encapsulate an "integration" with another platform)
+│   ├───types        (typescript type files for external (aka not our) modules)
 │   └───...
 ```
 
@@ -73,7 +74,7 @@ If you'd like a web UI to view the database (and see exactly what's going on!):
    - Username: `dragons`
    - Password: `dragons`
 4. Navigate to the `dragons_db` database on the left hand side of the menu.
-5. From here, you'll be able tod look through an interact with the database. Happy development!
+5. From here, you'll be able tod look through and interact with the database. Happy development!
 
 ## Integrations
 

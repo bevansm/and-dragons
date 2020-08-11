@@ -1,10 +1,11 @@
 import mysql, { Connection, escape, ConnectionConfig } from 'mysql';
-import IDataClient, {
+import IDataClient from './IDataClient';
+import {
   Student,
   CachedScore,
   Score,
-  Course,
-} from './IDataClient';
+  Course
+} from "./DataTypes";
 import { isUndefined } from 'lodash';
 import { IntegrationEnum } from '../integrations/IIntegration';
 

@@ -1,5 +1,6 @@
 import DBClient from '../src/db/DataClient';
-import { Student, Integration } from '../src/db/IDataClient';
+import { Student } from "../src/db/DataTypes";
+import { IntegrationEnum } from '../src/integrations/IIntegration';
 
 const populateDb = async () => {
   const client = await DBClient.getClient();
@@ -26,7 +27,9 @@ const populateDb = async () => {
       'scores from course',
       await client.getScoresByCourse(course_id)
     );
-    console.log(await client.updateScore(student_id, Integration.DISCORD, 1));
+    console.log(
+      await client.updateScore(student_id, IntegrationEnum.DISCORD, 1)
+    );
   } catch (e) {
     throw e;
   } finally {
