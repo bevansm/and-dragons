@@ -30,6 +30,14 @@ export interface CachedScore extends Score {
 
 export interface IDataClient {
   /**
+   * This will close the connection with the db.
+   *
+   * Do not call unless you know what you're doing.
+   * We're using a single connection for a majority of this.
+   */
+  destroy: () => void;
+
+  /**
    * Adds a course & returns the course id. Provide all fields for the course object except for id.
    */
   addCourse: (course: Omit<Course, 'course_id'>) => Promise<number>;
@@ -93,7 +101,7 @@ export interface IDataClient {
 
   /**
    * Updates the given student's score for the given integration
-   * by x points, and returns the updated score.
+   * by x points, and returns the updated score value.
    * @param studentId The student's ID
    * @param integration The destination integration
    * @param points The number of points to increase/decrease the student's score by
@@ -102,7 +110,7 @@ export interface IDataClient {
     studentId: number,
     integration: Integration,
     points: number
-  ) => Promise<Score>;
+  ) => Promise<number>;
 }
 
 export default IDataClient;

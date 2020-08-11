@@ -25,6 +25,7 @@ class DataClient implements IDataClient {
     password: string = process.env.DB_PASSWORD
   ) {
     const config: ConnectionConfig = {
+      multipleStatements: true,
       insecureAuth: true,
       host,
       password,
@@ -68,7 +69,6 @@ class DataClient implements IDataClient {
     console.log(query);
     const res = await new Promise((resolve, reject) =>
       this.connection.query(query, (error, results) => {
-        console.log(error, results);
         if (error) reject(error);
         resolve(results);
       })
@@ -89,6 +89,10 @@ class DataClient implements IDataClient {
       studentId
     )}, integration_id FROM ${integrationsTable}`;
     await this.query(queryStr);
+  }
+
+  public destroy() {
+    this.connection.end();
   }
 
   public async addStudent(
@@ -183,13 +187,12 @@ class DataClient implements IDataClient {
     studentId: number,
     integration: Integration,
     points: number
-  ): Promise<Score> {
-    const queryStr = format(
-      'UPDATE ? SET points = points + ? WHERE integration_id = ? AND student_id = ?',
-      [scoresTable, points, integration, studentId]
-    );
+  ): Promise<number> {
+    const queryStr = `UPDATE ${scoresTable} SET points = @points := points + ${points} WHERE integration_id = ${escape(
+      integration
+    )} AND student_id = ${studentId}; SELECT @points;`;
     const res = await this.query(queryStr);
-    return res[0];
+    return res[1][0]['@points'];
   }
 }
 
