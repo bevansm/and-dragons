@@ -1,5 +1,7 @@
 ALTER USER 'root'@'localhost' IDENTIFIED
 WITH mysql_native_password BY 'secret';
+--- this is using localhost auth
+--- new mysql clients use a more secure login method, but, for now, this gets around that
 ALTER USER 'dragons'@'%' IDENTIFIED
 WITH mysql_native_password BY 'dragons';
 flush privileges;
