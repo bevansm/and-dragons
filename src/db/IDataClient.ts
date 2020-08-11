@@ -1,3 +1,6 @@
+import { IntegrationEnum } from '../integrations/IIntegration';
+import { Integration } from 'discord.js';
+
 export interface Student {
   student_id: number;
   course_id: number;
@@ -10,12 +13,6 @@ export interface Student {
 export interface Course {
   course_id: number;
   pl_course_id: number;
-}
-
-export enum Integration {
-  PL = 'PL',
-  DISCORD = 'DISCORD',
-  PIAZZA = 'PIAZZA',
 }
 
 export interface Score {
@@ -41,6 +38,16 @@ export interface IDataClient {
    * Adds a course & returns the course id. Provide all fields for the course object except for id.
    */
   addCourse: (course: Omit<Course, 'course_id'>) => Promise<number>;
+
+  /**
+   * Gets the course with the given ID
+   */
+  getCourse: (courseId: number) => Promise<Course>;
+
+  /**
+   * Gets all active courses
+   */
+  getCourses: () => Promise<Course[]>;
 
   /**
    * Adds a student & returns their id. Provide all fields from the student object except for id.
@@ -72,7 +79,7 @@ export interface IDataClient {
    */
   getCachedScoresByStudent: (
     studentId: number,
-    integration?: Integration
+    integration?: IntegrationEnum
   ) => Promise<CachedScore[]>;
 
   /**
@@ -80,7 +87,7 @@ export interface IDataClient {
    */
   getScoresByStudent: (
     studentId: number,
-    integration?: Integration
+    integration?: IntegrationEnum
   ) => Promise<Score[]>;
 
   /**
@@ -88,7 +95,7 @@ export interface IDataClient {
    */
   getCachedScoresByCourse: (
     courseId: number,
-    integration?: Integration
+    integration?: IntegrationEnum
   ) => Promise<CachedScore[]>;
 
   /**
@@ -96,7 +103,7 @@ export interface IDataClient {
    */
   getScoresByCourse: (
     courseId: number,
-    integration?: Integration
+    integration?: IntegrationEnum
   ) => Promise<Score[]>;
 
   /**
@@ -108,7 +115,7 @@ export interface IDataClient {
    */
   updateScore: (
     studentId: number,
-    integration: Integration,
+    integration: IntegrationEnum,
     points: number
   ) => Promise<number>;
 }

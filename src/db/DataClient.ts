@@ -1,12 +1,12 @@
-import mysql, { Connection, escape, format, ConnectionConfig } from 'mysql';
+import mysql, { Connection, escape, ConnectionConfig } from 'mysql';
 import IDataClient, {
   Student,
-  Integration,
   CachedScore,
   Score,
   Course,
 } from './IDataClient';
 import { isUndefined } from 'lodash';
+import { IntegrationEnum } from '../integrations/IIntegration';
 
 const coursesTable = 'courses';
 const studentsTable = 'students';
@@ -66,7 +66,6 @@ class DataClient implements IDataClient {
   }
 
   private async query(query: string): Promise<any> {
-    console.log(query);
     const res = await new Promise((resolve, reject) =>
       this.connection.query(query, (error, results) => {
         if (error) reject(error);
@@ -82,6 +81,19 @@ class DataClient implements IDataClient {
     )} VALUES ${this.toValuesString(course)}`;
     const res = await this.query(queryStr);
     return res.insertId;
+  }
+
+  public async getCourse(courseId: number): Promise<Course> {
+    const queryStr = `SELECT * FROM ${coursesTable} WHERE course_id = ${courseId}`;
+    const res = await this.query(queryStr);
+    if (!res.length) throw new Error('No courses found with the given ID.');
+    return res[0];
+  }
+
+  public async getCourses(): Promise<Course[]> {
+    const queryStr = `SELECT * FROM ${coursesTable}`;
+    const res = await this.query(queryStr);
+    return res;
   }
 
   private async initScores(studentId: number, table: string) {
@@ -127,7 +139,7 @@ class DataClient implements IDataClient {
 
   public async getCachedScoresByStudent(
     studentId: number,
-    integration?: Integration
+    integration?: IntegrationEnum
   ): Promise<CachedScore[]> {
     let queryStr = `SELECT * FROM ${scoresCacheTable} WHERE student_id = ${studentId}`;
     if (!isUndefined(integration)) {
@@ -138,7 +150,7 @@ class DataClient implements IDataClient {
 
   public async getScoresByStudent(
     studentId: number,
-    integration?: Integration
+    integration?: IntegrationEnum
   ): Promise<Score[]> {
     let queryStr = `SELECT * FROM ${scoresTable} WHERE student_id = ${studentId}`;
     if (!isUndefined(integration)) {
@@ -150,7 +162,7 @@ class DataClient implements IDataClient {
   private async queryScoresByCourse<T>(
     table: string,
     courseId: number,
-    integration?: Integration
+    integration?: IntegrationEnum
   ): Promise<T[]> {
     let queryStr = `SELECT * FROM ${table} sc 
                       LEFT JOIN ${studentsTable} s ON sc.student_id = s.student_id
@@ -163,7 +175,7 @@ class DataClient implements IDataClient {
 
   public async getCachedScoresByCourse(
     courseId: number,
-    integration?: Integration
+    integration?: IntegrationEnum
   ): Promise<CachedScore[]> {
     return this.queryScoresByCourse<CachedScore>(
       scoresCacheTable,
@@ -174,7 +186,7 @@ class DataClient implements IDataClient {
 
   public async getScoresByCourse(
     courseId: number,
-    integration?: Integration
+    integration?: IntegrationEnum
   ): Promise<Score[]> {
     return this.queryScoresByCourse<CachedScore>(
       scoresTable,
@@ -185,7 +197,7 @@ class DataClient implements IDataClient {
 
   public async updateScore(
     studentId: number,
-    integration: Integration,
+    integration: IntegrationEnum,
     points: number
   ): Promise<number> {
     const queryStr = `UPDATE ${scoresTable} SET points = @points := points + ${points} WHERE integration_id = ${escape(
