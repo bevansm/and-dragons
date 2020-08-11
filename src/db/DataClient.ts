@@ -120,9 +120,9 @@ class DataClient implements IDataClient {
     return insertId;
   }
 
-  public async deleteStudent(studentId: number): Promise<Student> {
+  public async deleteStudent(studentId: number): Promise<void> {
     const queryStr = `DELETE FROM ${studentsTable} WHERE student_id = ${studentId}`;
-    return this.query(queryStr);
+    await this.query(queryStr);
   }
 
   public async getStudents(student: Partial<Student>): Promise<Student[]> {

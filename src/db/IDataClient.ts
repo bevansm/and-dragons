@@ -57,7 +57,7 @@ export interface IDataClient {
   /**
    * Deletes a student.
    */
-  deleteStudent: (studentId: number) => Promise<Student>;
+  deleteStudent: (studentId: number) => Promise<void>;
 
   /**
    * Given a set of attributes for a student, returns
