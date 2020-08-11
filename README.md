@@ -23,6 +23,7 @@ Coding's cool. What's even cooler? Wearing together the platforms used in a codi
 ```txt
 ├───dist        (compiled typescript files. gitignored)
 ├───docs        (doccumentation files)
+├───res         (test scripts)
 ├───sql         (sql queries to set up tables, events, and mock data)
 ├───src         (the meat of the project)
 │   ├───clients (api wrappers for various integrations & external apis)
@@ -59,7 +60,7 @@ To use the local database, with or without running the app in the docker contain
 
 ```bash
 docker-compose up dragons_db
-docker-compose exec -T dragons_db sh -c 'exec mysql -u $MYSQL_USER -p"$MYSQL_PASSWORD" -D $MYSQL_DATABASE' < ./sql/tables.sql
+docker-compose exec -T dragons_db sh -c 'exec mysql -u root -p"$MYSQL_ROOT_PASSWORD" -D $MYSQL_DATABASE' < ./sql/tables.sql
 docker-compose exec -T dragons_db sh -c 'exec mysql -u $MYSQL_USER -p"$MYSQL_PASSWORD" -D $MYSQL_DATABASE' < ./sql/events.sql
 docker-compose exec -T dragons_db sh -c 'exec mysql -u $MYSQL_USER -p"$MYSQL_PASSWORD" -D $MYSQL_DATABASE' < ./sql/mocks.sql
 ```
