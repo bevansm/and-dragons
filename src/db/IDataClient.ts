@@ -12,6 +12,11 @@ export interface IDataClient {
   destroy: () => void;
 
   /**
+   * Standard SQL queries.
+   */
+  query: (query: string) => Promise<any>;
+
+  /**
    * Adds a course & returns the course id. Provide all fields for the course object except for id.
    */
   addCourse: (course: Omit<Course, 'course_id'>) => Promise<number>;

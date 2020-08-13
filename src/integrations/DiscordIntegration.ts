@@ -29,36 +29,38 @@ class DiscordIntegration implements IIntegration {
     const {
       content,
       channel,
-      author: { username },
+      author: { id },
     } = message;
     // Returns all students with the given discord ID
-    const students = await this.db.getStudents({ discord_id: username });
+    const students = await this.db.getStudents({ discord_id: id });
 
     // pls ignore if i don't know how to ts syntax properly
-    let student = students[0];
+    const student = students[0];
+    let student_id;
     if (student === undefined) {
-      var student_id = await this.db.addStudent({
+      student_id = await this.db.addStudent({
+        // this will be necessary to update
         course_id: 1,
         pl_id: "pl_id_placeholder",
         piazza_id: "piazza_id_placeholder",
-        discord_id: username
+        discord_id: id
       });
     } else {
-      var student_id = student.student_id;
+      student_id = student.student_id;
     }
-    let row = await (<DataClient> this.db).query(`SELECT * FROM daily WHERE student_id = ${student_id}`);
-    let today = new Date();
-    let dd = this.zeropad(String(today.getDate()), 2);
-    let mm = this.zeropad(String(today.getMonth() + 1), 2);
-    let yyyy = String(today.getFullYear());
-    let today_string = `${yyyy}-${mm}-${dd}`;
+    const row = await this.db.query(`SELECT * FROM daily WHERE student_id = ${student_id}`);
+    const today = new Date();
+    const dd = this.zeropad(String(today.getDate()), 2);
+    const mm = this.zeropad(String(today.getMonth() + 1), 2);
+    const yyyy = String(today.getFullYear());
+    const today_string = `${yyyy}-${mm}-${dd}`;
     if (!(row.length)) {
-      await (<DataClient> this.db).query(`INSERT INTO daily (last_daily, num_dailies) VALUES ('${today_string}', 1)`);
+      await this.db.query(`INSERT INTO daily (student_id, last_daily, num_dailies) VALUES ('${student_id}', '${today_string}', 1)`);
       channel.send("Daily command used!");
     } else {
-      let last_daily = row[1];
-      if (last_daily != today_string) {
-        await (<DataClient> this.db).query(`UPDATE daily SET num_dailies = num_dailies + 1 WHERE student_id = ${student.student_id}`);
+      const last_daily = row[0].last_daily;
+      if (last_daily.toDateString() !== today.toDateString()) {
+        await this.db.query(`UPDATE daily SET num_dailies = num_dailies + 1 WHERE student_id = ${student.student_id}`);
         channel.send("Daily command used!");
       } else {
         channel.send("Daily command is in cooldown.");
@@ -72,7 +74,7 @@ class DiscordIntegration implements IIntegration {
         content,
         channel,
         author,
-        author: { bot, username },
+        author: { bot, id },
       } = message;
       if (bot) return;
       const contentLower = content.toLowerCase();
@@ -83,7 +85,7 @@ class DiscordIntegration implements IIntegration {
         default:
           return;
           // debugging
-          console.log(`Unrecognized string from ${username}: ${contentLower}`);
+          console.log(`Unrecognized string from ${id}: ${contentLower}`);
       }
     });
   }
