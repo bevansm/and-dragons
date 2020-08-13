@@ -29,7 +29,9 @@ export interface IDataClient {
   /**
    * Adds a student & returns their id. Provide all fields from the student object except for id.
    */
-  addStudent: (student: Omit<Student, 'student_id'>) => Promise<number>;
+  addStudent: (
+    student: Omit<Student, 'student_id' | 'last_seen'>
+  ) => Promise<number>;
 
   /**
    * Deletes a student.
