@@ -4,8 +4,9 @@ import {
   Student,
   CachedScore,
   Score,
-  Course
-} from "./DataTypes";
+  Course,
+  IntegrationFields,
+} from './DataTypes';
 import { isUndefined } from 'lodash';
 import { IntegrationEnum } from '../integrations/IIntegration';
 
@@ -119,6 +120,17 @@ class DataClient implements IDataClient {
     await this.initScores(insertId, scoresTable);
     await this.initScores(insertId, scoresCacheTable);
     return insertId;
+  }
+
+  public async updateStudent(
+    id: number,
+    integration: IntegrationEnum,
+    value: string
+  ): Promise<void> {
+    const queryStr = `UPDATE ${studentsTable} SET ${
+      IntegrationFields[integration]
+    } = ${escape(value)} WHERE student_id = ${id}`;
+    await this.query(queryStr);
   }
 
   public async deleteStudent(studentId: number): Promise<void> {
