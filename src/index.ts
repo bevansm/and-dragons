@@ -1,5 +1,15 @@
 import express, { Request, Response } from 'express';
+import bodyParser from 'body-parser';
+import PiazzaClient from './clients/PiazzaClient';
+import DiscordClient from './clients/DiscordClient';
+import CanvasClient from 'node-canvas-api';
+import PrairieLearnClient from './clients/PrairieLearnClient';
 import DiscordIntegration from './integrations/DiscordIntegration';
+import DataClient from './db/DataClient';
+import { Student } from './db/DataTypes';
+import postStudent from './api/postStudent';
+import getStudent from './api/getStudent';
+import getCourse from './api/getCourse';
 
 const app = express();
 
@@ -23,7 +33,11 @@ const start = async () => {
   discordIntegration.start();
 };
 
+app.use(bodyParser.json());
 app.get('/health', (_req: Request, res: Response) => res.send('OK'));
+app.get('/course', getCourse);
+app.get('/student', getStudent);
+app.post('/student', postStudent);
 
 app.listen(8080);
 console.log('App listening at http://localhost:8080');
