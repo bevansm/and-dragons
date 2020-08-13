@@ -66,7 +66,8 @@ class DataClient implements IDataClient {
       .join(' AND ');
   }
 
-  private async query(query: string): Promise<any> {
+  public async query(query: string): Promise<any> {
+    console.log(query);
     const res = await new Promise((resolve, reject) =>
       this.connection.query(query, (error, results) => {
         if (error) reject(error);

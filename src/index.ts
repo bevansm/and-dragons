@@ -1,8 +1,4 @@
 import express, { Request, Response } from 'express';
-import PiazzaClient from './clients/PiazzaClient';
-import DiscordClient from './clients/DiscordClient';
-import CanvasClient from 'node-canvas-api';
-import PrairieLearnClient from './clients/PrairieLearnClient';
 import DiscordIntegration from './integrations/DiscordIntegration';
 
 const app = express();
