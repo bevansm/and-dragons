@@ -38,6 +38,11 @@ export interface IIntegration {
    * Starts the integration.
    */
   start: () => Promise<void>;
+
+  /**
+   * Initializes the integration
+   */
+  init: () => Promise<void>;
 }
 
 export default IIntegration;

@@ -7,6 +7,9 @@ class SampleIntegration implements IIntegration {
    */
   public integrationId = IntegrationEnum.DISCORD;
 
+  public async init(): Promise<void> {
+    return null;
+  }
   /**
    * This sample job prints all courses in the database.
    */
