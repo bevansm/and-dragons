@@ -29,22 +29,19 @@ class PLIntegration implements IIntegration {
       course_id: courseId,
       pl_id: `${user_uid}`,
     });
-    if (!student) console.log(`No corresponding user for ${user_uid}`);
-    const score = assessments.reduce(
-      (acc: number, { points = 0 }: any) => acc + points,
-      0
+    if (!student) {
+      console.log(`No corresponding user for ${user_uid}`);
+      return;
+    }
+    const score = Math.floor(
+      assessments.reduce((acc: number, { points = 0 }: any) => acc + points, 0)
     );
-    const newScore = await this.db.updateScore(
-      student.student_id,
-      this.integrationId,
-      score
-    );
+    await this.db.updateScore(student.student_id, this.integrationId, score);
   }
 
   private async handleCourse(course: Course) {
     const { course_id, pl_course_id } = course;
     const studentsGradebooks = await this.client.getGradebook(pl_course_id);
-    console.log(studentsGradebooks);
     await this.db.updateCourseLastPL(course_id, new Date());
     await Promise.all(
       studentsGradebooks.map(sg => this.handleStudentGradebook(course_id, sg))
@@ -53,7 +50,6 @@ class PLIntegration implements IIntegration {
 
   private async runJob() {
     const courses = await this.db.getCourses();
-    console.log(courses);
     const anHourAgo = Date.now() - 1000 * 60 * 60;
     await Promise.all(
       courses
