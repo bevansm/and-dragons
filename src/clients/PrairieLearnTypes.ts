@@ -53,3 +53,26 @@ export interface PrairieLearnSubmission {
   instance_question_score_perc: number;
   assessment_question_max_points: number;
 }
+
+export interface PrairieLearnAssessmentAccessRule {
+  mode: string;
+  role?: any;
+  uids?: any;
+  credit: number;
+  number: number;
+  end_date: Date;
+  password?: any;
+  exam_uuid?: any;
+  seb_config?: any;
+  start_date: Date;
+  assessment_id: number;
+  time_limit_min?: any;
+  assessment_name: string;
+  assessment_label: string;
+  assessment_title: string;
+  assessment_number: string;
+  show_closed_assessment: boolean;
+  assessment_access_rule_id: number;
+  assessment_set_abbreviation: string;
+  assessment_access_rule_number: number;
+}
