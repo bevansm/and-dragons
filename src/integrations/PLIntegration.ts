@@ -4,6 +4,9 @@ import PLClient from '../clients/PrairieLearnClient';
 import DataClient from '../db/DataClient';
 
 class PLIntegration implements IIntegration {
+  private db: IDataClient;
+  private client: PLClient;
+
   /**
    * This is our integration ID. It corresponds to a value in the database.
    */
@@ -11,12 +14,14 @@ class PLIntegration implements IIntegration {
 
   public async init() {
     this.db = await DataClient.getClient();
+    this.client = await PLClient.getClient(0);
   }
+
   /**
    * This sample job prints all courses in the database.
    */
-  public async getPLStat() {
-    const scores = await db.getCourses();
+  public async start() {
+    const scores = await this.db.getCourses();
     console.log(scores);
   }
 }
