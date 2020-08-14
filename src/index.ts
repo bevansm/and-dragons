@@ -4,6 +4,7 @@ import PiazzaClient from './clients/PiazzaClient';
 import DiscordClient from './clients/DiscordClient';
 import CanvasClient from 'node-canvas-api';
 import PrairieLearnClient from './clients/PrairieLearnClient';
+import PrairieLearnIntegration from './integrations/PLIntegration';
 import DiscordIntegration from './integrations/DiscordIntegration';
 import DataClient from './db/DataClient';
 import { Student } from './db/DataTypes';
@@ -31,6 +32,12 @@ const start = async () => {
   const discordIntegration = new DiscordIntegration();
   await discordIntegration.init();
   discordIntegration.start();
+  console.log('Discord started...');
+
+  const PLIntegration = new PrairieLearnIntegration();
+  await PLIntegration.init();
+  PLIntegration.start();
+  console.log('PL started...');
 };
 
 app.use(bodyParser.json());

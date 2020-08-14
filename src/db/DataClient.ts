@@ -7,8 +7,8 @@ import {
   Course,
   IntegrationFields,
 } from './DataTypes';
-import { isUndefined } from 'lodash';
 import { IntegrationEnum } from '../integrations/IIntegration';
+import { isUndefined } from 'lodash';
 
 const coursesTable = 'courses';
 const studentsTable = 'students';
@@ -96,6 +96,16 @@ class DataClient implements IDataClient {
     const queryStr = `SELECT * FROM ${coursesTable}`;
     const res = await this.query(queryStr);
     return res;
+  }
+
+  public async updateCourseLastPL(
+    course_id: number,
+    date: Date
+  ): Promise<void> {
+    const queryStr = `UPDATE ${coursesTable} SET pl_last_checked = ${escape(
+      date
+    )} WHERE course_id = ${course_id}`;
+    await this.query(queryStr);
   }
 
   private async initScores(studentId: number, table: string) {

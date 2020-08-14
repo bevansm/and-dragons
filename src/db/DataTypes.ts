@@ -18,6 +18,7 @@ export const IntegrationFields: { [key in IntegrationEnum]: keyof Student } = {
 export interface Course {
   course_id: number;
   pl_course_id: number;
+  pl_last_checked: string;
 }
 
 export interface Score {

@@ -26,6 +26,11 @@ export interface IDataClient {
   getCourse: (courseId: number) => Promise<Course>;
 
   /**
+   * Updates the last PL date for this course
+   */
+  updateCourseLastPL: (course_id: number, date: Date) => Promise<void>;
+
+  /**
    * Gets all active courses
    */
   getCourses: () => Promise<Course[]>;
