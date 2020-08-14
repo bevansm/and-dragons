@@ -7,6 +7,8 @@ import DataClient from '../db/DataClient';
 enum CommandEnum {
   DAILY = '!daily',
   REGISTER = '!register',
+  CLASS = '!class',
+  SCORE = '!score',
 }
 
 class DiscordIntegration implements IIntegration {
@@ -38,34 +40,27 @@ class DiscordIntegration implements IIntegration {
 
     // pls ignore if i don't know how to ts syntax properly
     const student = students[0];
-    let student_id;
     if (student === undefined) {
-      student_id = await this.db.addStudent({
-        // this will be necessary to update
-        course_id: 1,
-        pl_id: "pl_id_placeholder",
-        piazza_id: "piazza_id_placeholder",
-        discord_id: id
-      });
-    } else {
-      student_id = student.student_id;
+      await channel.send("It seems like you don't exist in our database. Please use \`!register\` to register yourself first.");
+      return;
     }
-    const row = await this.db.query(`SELECT * FROM daily WHERE student_id = ${student_id}`);
+
+    const row = await this.db.query(`SELECT * FROM daily WHERE student_id = ${student.student_id}`);
     const today = new Date();
     const dd = this.zeropad(String(today.getDate()), 2);
     const mm = this.zeropad(String(today.getMonth() + 1), 2);
     const yyyy = String(today.getFullYear());
     const today_string = `${yyyy}-${mm}-${dd}`;
     if (!(row.length)) {
-      await this.db.query(`INSERT INTO daily (student_id, last_daily, num_dailies) VALUES ('${student_id}', '${today_string}', 1)`);
-      channel.send("Daily command used!");
+      await this.db.query(`INSERT INTO daily (student_id, last_daily, num_dailies) VALUES ('${student.student_id}', '${today_string}', 1)`);
+      await channel.send("Daily command used!");
     } else {
       const last_daily = row[0].last_daily;
       if (last_daily.toDateString() !== today.toDateString()) {
         await this.db.query(`UPDATE daily SET num_dailies = num_dailies + 1 WHERE student_id = ${student.student_id}`);
-        channel.send("Daily command used!");
+        await channel.send("Daily command used!");
       } else {
-        channel.send("Daily command is in cooldown.");
+        await channel.send("Daily command is in cooldown.");
       }
     }
   }
@@ -125,6 +120,42 @@ class DiscordIntegration implements IIntegration {
     message.reply(reply);
   }
 
+  private async handleClass(message: Message) {
+    const {
+      content,
+      channel,
+      author: { id },
+    } = message;
+
+    // Returns all students with the given discord ID
+    const students = await this.db.getStudents({ discord_id: id });
+    const student = students[0];
+    if (student === undefined) {
+      await channel.send("It seems like you don't exist in our database. Please use \`!register\` to register yourself first.");
+      return;
+    }
+    const points = await this.db.query(`SELECT SUM(points) as points FROM points WHERE student_id in (SELECT student_id FROM students WHERE course_id = ${student.course_id})`);
+    await channel.send(`This class has a total of ${points[0].points} points.`);
+  }
+
+  private async handleScore(message: Message) {
+    const {
+      content,
+      channel,
+      author: { id },
+    } = message;
+
+    // Returns all students with the given discord ID
+    const students = await this.db.getStudents({ discord_id: id });
+    const student = students[0];
+    if (student === undefined) {
+      await channel.send("It seems like you don't exist in our database. Please use \`!register\` to register yourself first.");
+      return;
+    }
+    const points = await this.db.query(`SELECT SUM(points) as points FROM points WHERE student_id = ${student.student_id}`);
+    await channel.send(`You have a total of ${points[0].points} points.`);
+  }
+
   public async start() {
     this.client.on('message', async (message: Message) => {
       const {
@@ -142,6 +173,12 @@ class DiscordIntegration implements IIntegration {
           break;
         case CommandEnum.REGISTER:
           await this.handleRegister(message);
+          break;
+        case CommandEnum.CLASS:
+          await this.handleClass(message);
+          break;
+        case CommandEnum.SCORE:
+          await this.handleScore(message);
           break;
         default:
           return;
