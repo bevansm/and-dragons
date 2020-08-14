@@ -19,18 +19,55 @@ class DiscordIntegration implements IIntegration {
     this.db = await DataClient.getClient();
   }
 
+  private zeropad(str: string, size: number): string {
+    while (str.length < size) str = "0" + str;
+    return str;
+  }
+
   /**
    * Handles a student's request for a daily.
    */
   private async handleDaily(message: Message) {
     const {
       content,
-      author: { username },
+      channel,
+      author: { id },
     } = message;
     // Returns all students with the given discord ID
-    const students = await this.db.getStudents({ discord_id: username });
+    const students = await this.db.getStudents({ discord_id: id });
 
-    // TODO: do all of this
+    // pls ignore if i don't know how to ts syntax properly
+    const student = students[0];
+    let student_id;
+    if (student === undefined) {
+      student_id = await this.db.addStudent({
+        // this will be necessary to update
+        course_id: 1,
+        pl_id: "pl_id_placeholder",
+        piazza_id: "piazza_id_placeholder",
+        discord_id: id
+      });
+    } else {
+      student_id = student.student_id;
+    }
+    const row = await this.db.query(`SELECT * FROM daily WHERE student_id = ${student_id}`);
+    const today = new Date();
+    const dd = this.zeropad(String(today.getDate()), 2);
+    const mm = this.zeropad(String(today.getMonth() + 1), 2);
+    const yyyy = String(today.getFullYear());
+    const today_string = `${yyyy}-${mm}-${dd}`;
+    if (!(row.length)) {
+      await this.db.query(`INSERT INTO daily (student_id, last_daily, num_dailies) VALUES ('${student_id}', '${today_string}', 1)`);
+      channel.send("Daily command used!");
+    } else {
+      const last_daily = row[0].last_daily;
+      if (last_daily.toDateString() !== today.toDateString()) {
+        await this.db.query(`UPDATE daily SET num_dailies = num_dailies + 1 WHERE student_id = ${student.student_id}`);
+        channel.send("Daily command used!");
+      } else {
+        channel.send("Daily command is in cooldown.");
+      }
+    }
   }
 
   /**
@@ -92,8 +129,9 @@ class DiscordIntegration implements IIntegration {
     this.client.on('message', async (message: Message) => {
       const {
         content,
+        channel,
         author,
-        author: { bot, username },
+        author: { bot, id },
       } = message;
       if (bot) return;
       const contentLower = content.toLowerCase();
@@ -106,8 +144,9 @@ class DiscordIntegration implements IIntegration {
           await this.handleRegister(message);
           break;
         default:
+          return;
           // debugging
-          console.log(`Unrecognized string from ${username}: ${contentLower}`);
+          console.log(`Unrecognized string from ${id}: ${contentLower}`);
       }
     });
   }
