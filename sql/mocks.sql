@@ -5,7 +5,7 @@ VALUES
 INSERT INTO students
     (course_id, discord_id)
 VALUES
-    (1, 'moonbird#7618');
+    (1, '160950267448131584');
 INSERT INTO integrations
     (integration_id)
 VALUES

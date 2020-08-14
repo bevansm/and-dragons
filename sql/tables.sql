@@ -8,8 +8,7 @@ IF NOT EXISTS courses
 (
 	course_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	pl_course_id INT,
-	pl_last_checked TIMESTAMP DEFAULT NULL,
-
+	pl_last_checked TIMESTAMP DEFAULT NULL
 );
 CREATE TABLE
 IF NOT EXISTS students

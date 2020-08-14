@@ -23,9 +23,11 @@ export class PrairieLearnClient {
     courseInstance: number,
     queryString: string
   ): Promise<T> {
-    return axios.get(
-      `${this.uri}/course_instances/${courseInstance}/${queryString}?private_token=${this.token}`
-    );
+    return axios
+      .get(
+        `${this.uri}/course_instances/${courseInstance}/${queryString}?private_token=${this.token}`
+      )
+      .then(res => res.data);
   }
 
   /**

@@ -102,7 +102,9 @@ class DataClient implements IDataClient {
     course_id: number,
     date: Date
   ): Promise<void> {
-    const queryStr = `UPDATE ${coursesTable} SET pl_last_checked = ${date.toISOString()} WHERE course_id = ${course_id}`;
+    const queryStr = `UPDATE ${coursesTable} SET pl_last_checked = ${escape(
+      date
+    )} WHERE course_id = ${course_id}`;
     await this.query(queryStr);
   }
 

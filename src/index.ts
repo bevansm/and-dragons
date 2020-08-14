@@ -29,17 +29,15 @@ const start = async () => {
    * - The canvas client has most of the methods from the canvas api, but we may have to type them.
    *    Look in ./types/node-canvas-api for more details.
    */
-  // const discordIntegration = new DiscordIntegration();
-  // await discordIntegration.init();
-  // discordIntegration.start();
+  const discordIntegration = new DiscordIntegration();
+  await discordIntegration.init();
+  discordIntegration.start();
+  console.log('Discord started...');
 
   const PLIntegration = new PrairieLearnIntegration();
   await PLIntegration.init();
-  console.log('start 3');
-  // PLIntegration.start();
-  await PLIntegration.start();
-  await PLIntegration.getPLStat();
-  // console.log(PLIntegration);
+  PLIntegration.start();
+  console.log('PL started...');
 };
 
 app.use(bodyParser.json());
