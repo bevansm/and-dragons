@@ -4,7 +4,7 @@ import PiazzaClient from './clients/PiazzaClient';
 import DiscordClient from './clients/DiscordClient';
 import CanvasClient from 'node-canvas-api';
 import PrairieLearnClient from './clients/PrairieLearnClient';
-import PrairieLearnIntegration from './integrations/DiscordIntegration';
+import PrairieLearnIntegration from './integrations/PLIntegration';
 import DiscordIntegration from './integrations/DiscordIntegration';
 import DataClient from './db/DataClient';
 import { Student } from './db/DataTypes';
@@ -29,14 +29,17 @@ const start = async () => {
    * - The canvas client has most of the methods from the canvas api, but we may have to type them.
    *    Look in ./types/node-canvas-api for more details.
    */
-  const discordIntegration = new DiscordIntegration();
-  await discordIntegration.init();
-  discordIntegration.start();
+  // const discordIntegration = new DiscordIntegration();
+  // await discordIntegration.init();
+  // discordIntegration.start();
 
-  console.log('start');
   const PLIntegration = new PrairieLearnIntegration();
   await PLIntegration.init();
-  PLIntegration.start();
+  console.log('start 3');
+  // PLIntegration.start();
+  await PLIntegration.start();
+  await PLIntegration.getPLStat();
+  // console.log(PLIntegration);
 };
 
 app.use(bodyParser.json());
@@ -44,7 +47,6 @@ app.get('/health', (_req: Request, res: Response) => res.send('OK'));
 app.get('/course', getCourse);
 app.get('/student', getStudent);
 app.post('/student', postStudent);
-
 
 app.listen(8080);
 console.log('App listening at http://localhost:8080');

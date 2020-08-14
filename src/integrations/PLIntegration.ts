@@ -6,10 +6,6 @@ import DataClient from '../db/DataClient';
 class PLIntegration implements IIntegration {
   private db: IDataClient;
   private client: PLClient;
-
-  /**
-   * This is our integration ID. It corresponds to a value in the database.
-   */
   public integrationId = IntegrationEnum.PL;
 
   public async init() {
@@ -17,12 +13,17 @@ class PLIntegration implements IIntegration {
     this.client = await PLClient.getClient(0);
   }
 
+  public async start() {
+    console.log('Start OK');
+  }
   /**
    * This sample job prints all courses in the database.
    */
-  public async start() {
-    const scores = await this.db.getCourses();
-    console.log(scores);
+  public async getPLStat() {
+    console.log('Start PL Stat');
+    // const scores = await this.db.getCourses();
+
+    // console.log(scores);
   }
 }
 
