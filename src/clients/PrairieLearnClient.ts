@@ -60,8 +60,8 @@ export class PrairieLearnClient {
   // All of the data available in the course gradebook, with one entry per user containing summary data on all assessments.
   public async getGradebook(
     courseInstance: number
-  ): Promise<PrairieLearnGradebook> {
-    return this.getForInstance<PrairieLearnGradebook>(
+  ): Promise<PrairieLearnGradebook[]> {
+    return this.getForInstance<PrairieLearnGradebook[]>(
       courseInstance,
       'gradebook'
     );

@@ -3,8 +3,7 @@ import IDataClient from '../db/IDataClient';
 import PLClient from '../clients/PrairieLearnClient';
 import DataClient from '../db/DataClient';
 import { Course } from '../db/DataTypes';
-import { PrairieLearnAssessmentAccessRule } from 'src/clients/PrairieLearnTypes';
-import { PrairieLearnAssessmentAccessRule } from 'src/clients/PrairieLearnTypes';
+import { PrairieLearnGradebook } from '../clients/PrairieLearnTypes';
 
 class PLIntegration implements IIntegration {
   private db: IDataClient;
@@ -13,27 +12,51 @@ class PLIntegration implements IIntegration {
 
   public async init() {
     this.db = await DataClient.getClient();
-    this.client = await PLClient.getClient(0);
+    this.client = await PLClient.getClient();
   }
 
   public async start() {
     console.log('Start OK');
+    await this.runJob();
     setTimeout(this.start, 1000 * 60 * 60);
   }
 
-  private async processCourse(course: Course) {
-    const { course_id, pl_last_checked } = course;
-    const assessments = await this.client.getAssessments(course_id);
-    const accessRules: PrairieLearnAssessmentAccessRule[] = await Promise.all(
-      assessments.map(({ assessment_id }) =>
-        this.client.getAccessRule(course_id, assessment_id)
-      )
+  private async handleStudentGradebook(
+    courseId: number,
+    gradebook: PrairieLearnGradebook
+  ) {
+    const { user_id, assessments } = gradebook;
+    const [student] = await this.db.getStudents({
+      course_id: courseId,
+      pl_id: `${user_id}`,
+    });
+    if (!student) console.log(`No corresponding user for ${user_id}`);
+    const score = assessments.reduce(
+      (acc: number, { points = 0 }: any) => acc + points,
+      0
+    );
+    await this.db.updateScore(student.student_id, this.integrationId, score);
+  }
+
+  private async handleCourse(course: Course) {
+    const { course_id } = course;
+    const studentsGradebooks = await this.client.getGradebook(course_id);
+    await this.db.updateCourseLastPL(course_id, new Date());
+    await Promise.all(
+      studentsGradebooks.map(sg => this.handleStudentGradebook(course_id, sg))
     );
   }
 
   private async runJob() {
     const courses = await this.db.getCourses();
-    await Promise.all(courses.map(c => this.processCourse(c)));
+    const anHourAgo = Date.now() - 1000 * 60 * 60;
+    await Promise.all(
+      courses
+        .filter(
+          ({ pl_last_checked }) => Date.parse(pl_last_checked) < anHourAgo
+        )
+        .map(c => this.handleCourse(c))
+    );
   }
 }
 
