@@ -3,6 +3,7 @@ import {
   PrairieLearnAssessment,
   PrairieLearnGradebook,
   PrairieLearnSubmission,
+  PrairieLearnAssessmentAccessRule,
 } from './PrairieLearnTypes';
 
 export class PrairieLearnClient {
@@ -96,6 +97,16 @@ export class PrairieLearnClient {
     return this.getForInstance<PrairieLearnSubmission>(
       courseInstance,
       `submissions/${submissionId}`
+    );
+  }
+
+  public async getAccessRule(
+    courseInstance: number,
+    assessmentId: number
+  ): Promise<PrairieLearnAssessmentAccessRule> {
+    return this.getForInstance<PrairieLearnAssessmentAccessRule>(
+      courseInstance,
+      `/assessments/${assessmentId}/assessment_access_rules`
     );
   }
 }

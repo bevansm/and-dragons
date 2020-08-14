@@ -3,6 +3,8 @@ import IDataClient from '../db/IDataClient';
 import PLClient from '../clients/PrairieLearnClient';
 import DataClient from '../db/DataClient';
 import { Course } from '../db/DataTypes';
+import { PrairieLearnAssessmentAccessRule } from 'src/clients/PrairieLearnTypes';
+import { PrairieLearnAssessmentAccessRule } from 'src/clients/PrairieLearnTypes';
 
 class PLIntegration implements IIntegration {
   private db: IDataClient;
@@ -21,7 +23,12 @@ class PLIntegration implements IIntegration {
 
   private async processCourse(course: Course) {
     const { course_id, pl_last_checked } = course;
-    const gradebook = await this.client.getGradebook(course_id);
+    const assessments = await this.client.getAssessments(course_id);
+    const accessRules: PrairieLearnAssessmentAccessRule[] = await Promise.all(
+      assessments.map(({ assessment_id }) =>
+        this.client.getAccessRule(course_id, assessment_id)
+      )
+    );
   }
 
   private async runJob() {
