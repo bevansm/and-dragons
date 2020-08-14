@@ -69,3 +69,14 @@ REFERENCES integrations
 (integration_id) ON
 DELETE CASCADE
 );
+CREATE TABLE
+IF NOT EXISTS daily
+(
+	student_id INT NOT NULL PRIMARY KEY,
+	last_daily TIMESTAMP DEFAULT NULL,
+	num_dailies INT NOT NULL DEFAULT 0,
+	FOREIGN KEY
+	(student_id) REFERENCES students
+	(student_id) ON
+	DELETE CASCADE
+);
