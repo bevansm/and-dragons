@@ -1,3 +1,5 @@
+import { IntegrationEnum } from '../integrations/IIntegration';
+
 export interface Student {
   student_id: number;
   course_id: number;
@@ -6,6 +8,12 @@ export interface Student {
   discord_id: string;
   piazza_id: string;
 }
+
+export const IntegrationFields: { [key in IntegrationEnum]: keyof Student } = {
+  [IntegrationEnum.DISCORD]: 'discord_id',
+  [IntegrationEnum.PIAZZA]: 'piazza_id',
+  [IntegrationEnum.PL]: 'pl_id',
+};
 
 export interface Course {
   course_id: number;

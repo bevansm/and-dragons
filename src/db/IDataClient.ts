@@ -1,5 +1,4 @@
 import { IntegrationEnum } from '../integrations/IIntegration';
-import { Integration } from 'discord.js';
 import { Course, Student, CachedScore, Score } from './DataTypes';
 
 export interface IDataClient {
@@ -37,6 +36,15 @@ export interface IDataClient {
   addStudent: (
     student: Omit<Student, 'student_id' | 'last_seen'>
   ) => Promise<number>;
+
+  /**
+   * Updates a student's id for a given integration
+   */
+  updateStudent: (
+    id: number,
+    integration: IntegrationEnum,
+    value: string
+  ) => Promise<void>;
 
   /**
    * Deletes a student.
