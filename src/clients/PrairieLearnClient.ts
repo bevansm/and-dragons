@@ -7,19 +7,23 @@ import {
 
 export class PrairieLearnClient {
   private static client: PrairieLearnClient;
-  private courseInstance: number;
   private uri: string;
   private token: string;
 
-  constructor(courseInstance: number, uri: string, token: string) {
-    this.courseInstance = courseInstance;
+  constructor(
+    uri: string = process.env.PL_API_DOMAIN,
+    token: string = process.env.PL_API_TOKEN
+  ) {
     this.token = token;
     this.uri = uri;
   }
 
-  private async getForInstance<T>(queryString: string): Promise<T> {
+  private async getForInstance<T>(
+    courseInstance: number,
+    queryString: string
+  ): Promise<T> {
     return axios.get(
-      `${this.uri}/course_instances/${this.courseInstance}/${queryString}?private_token=${this.token}`
+      `${this.uri}/course_instances/${courseInstance}/${queryString}?private_token=${this.token}`
     );
   }
 
@@ -30,14 +34,9 @@ export class PrairieLearnClient {
    * @param uri The base URL that the PrairieLearn API lives at
    * @param token
    */
-  public static getClient(
-    courseInstance: number,
-    uri?: string,
-    token?: string
-  ) {
+  public static getClient(uri?: string, token?: string) {
     if (!PrairieLearnClient.client) {
       PrairieLearnClient.client = new PrairieLearnClient(
-        courseInstance,
         uri || process.env.PL_API_DOMAIN,
         token || process.env.PL_API_TOKEN
       );
@@ -48,38 +47,54 @@ export class PrairieLearnClient {
   // Endpoints & descriptions from https://prairielearn.readthedocs.io/en/latest/api/
 
   // All assessments in the course instance.
-  public async getAssessments(): Promise<PrairieLearnAssessment[]> {
-    return this.getForInstance<PrairieLearnAssessment[]>('assessments');
+  public async getAssessments(
+    courseInstance: number
+  ): Promise<PrairieLearnAssessment[]> {
+    return this.getForInstance<PrairieLearnAssessment[]>(
+      courseInstance,
+      'assessments'
+    );
   }
 
   // All of the data available in the course gradebook, with one entry per user containing summary data on all assessments.
-  public async getGradebook(): Promise<PrairieLearnGradebook> {
-    return this.getForInstance<PrairieLearnGradebook>('gradebook');
+  public async getGradebook(
+    courseInstance: number
+  ): Promise<PrairieLearnGradebook> {
+    return this.getForInstance<PrairieLearnGradebook>(
+      courseInstance,
+      'gradebook'
+    );
   }
 
   // One specific assessment.
   public async getAssessment(
+    courseInstance: number,
     assessmentId: number
   ): Promise<PrairieLearnAssessment> {
     return this.getForInstance<PrairieLearnAssessment>(
+      courseInstance,
       `assessments/${assessmentId}`
     );
   }
 
   // All submissions for a given assessment instance.
   public async getSubmissions(
+    courseInstance: number,
     assessmentInstanceId: number
   ): Promise<PrairieLearnSubmission[]> {
     return this.getForInstance<PrairieLearnSubmission[]>(
+      courseInstance,
       `assessment_instances/${assessmentInstanceId}/submissions`
     );
   }
 
   // One specific submission.
   public async getSubmission(
+    courseInstance: number,
     submissionId: number
   ): Promise<PrairieLearnSubmission> {
     return this.getForInstance<PrairieLearnSubmission>(
+      courseInstance,
       `submissions/${submissionId}`
     );
   }

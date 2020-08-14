@@ -7,7 +7,9 @@ CREATE TABLE
 IF NOT EXISTS courses
 (
 	course_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	pl_course_id INT
+	pl_course_id INT,
+	pl_last_checked TIMESTAMP DEFAULT NULL,
+
 );
 CREATE TABLE
 IF NOT EXISTS students
@@ -76,7 +78,7 @@ IF NOT EXISTS daily
 	last_daily TIMESTAMP DEFAULT NULL,
 	num_dailies INT NOT NULL DEFAULT 0,
 	FOREIGN KEY
-	(student_id) REFERENCES students
-	(student_id) ON
-	DELETE CASCADE
+(student_id) REFERENCES students
+(student_id) ON
+DELETE CASCADE
 );
